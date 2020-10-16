@@ -37,8 +37,8 @@ i18n.configure({
 
  // set root route
 app.use('/', indexRouter);
-app.use('/api', adminRouter);
-app.use('/admin', apiRouter);
+app.use('/api', apiRouter);
+app.use('/admin', adminRouter);
 
 app.use('/change-lang/:lang', (req, res) => { 
   res.cookie('lang', req.params.lang, { maxAge: 900000 });
