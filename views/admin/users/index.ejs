@@ -1,0 +1,172 @@
+<% include ../layouts/_header%>
+<% include ../layouts/_sidebar.ejs%>
+<div class="app-content content">
+  <div class="content-wrapper">
+    <div class="content-wrapper-before"></div>
+    <div class="content-header row">
+      <div class="content-header-left col-md-4 col-12 mb-2">
+        <h3 class="content-header-title">Users</h3>
+      </div>
+      <div class="content-header-right col-md-8 col-12">
+        <% include ../layouts/_breadcrumb%>
+      </div>
+    </div>
+    <div class="content-body">
+      <!-- Add rows table -->
+      <section id="add-row">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Users</h4>
+                <a class="heading-elements-toggle js-qwynlraxz"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li><a data-action="collapse" class="js-qwynlraxz"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="reload" onclick="LoadData(event);" class="js-qwynlraxz"><i class="ft-rotate-cw"></i></a></li>
+                    <li><a data-action="expand" class="js-qwynlraxz"><i class="ft-maximize"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-content collapse show">
+                <div class="card-body">
+                  <button id="addRow" class="btn btn-info mb-2" onclick="newUser(event);">
+                    <i class="ft-plus"></i>&nbsp; Add user</button>
+                </div>
+                <div class="table-responsive">
+                  <div class="dataTables_wrapper container-fluid dt-bootstrap4 table-responsive">
+                    <table id="dataUser" class="table table-striped table-bordered add-rows dataTable">
+                      <thead class="bg-primary white">
+                        <tr>
+                          <th>Id</th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% for (var index in users ) { %>
+                          <tr>
+                            <td><%= users[index].id %></td>
+                            <td><%= users[index].name %></td>
+                            <td><%= users[index].email %></td>
+                            <td class="form-group">
+                              <a class="btn btn-primary white round btn-sm" onclick="editUser(<%= users[index].id %>);">
+                                <i class="la la-edit"></i>
+                              </a>
+                              <form action="/admin/users/<%= users[index].id %>" method="POST" id="removeUser"> 
+                                <input type="hidden" name="_method" value="delete"/>
+                                <button type="submit"  class="btn btn-danger white round btn-sm"> <i class="la la-remove"></i></buttion>
+                              </form>
+                            </td>
+                          </tr>
+                        <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+<div class="modal fade text-left" id="addUserModal" style="padding-right: 15px;">
+</div>
+
+<div class="modal fade text-left" id="editUserModal" style="padding-right: 15px;">
+</div>
+<% include ../layouts/_footer%>
+
+<script>
+  var table = null;
+  // $(document).ready(function() {
+  //   let columnOptions = {
+  //     serverSide: true,
+  //     proccessing: true,
+  //     searchDelay: 5,
+  //     ajax: {
+  //         url: '/admin/users/get-users',
+  //         method:'get',
+  //         dataSrc: ""
+  //     },
+  //     columns: [
+  //         {data: 'id', name: 'id', orderable: false, searchable: false},
+  //         {data: 'name', name: 'name'},
+  //         {data: 'email', name: 'email'},
+  //         {
+  //           render: function (data, type, row) {
+  //             return '<form action="/admin/users/'+row['id']+'" method="delete"> '+
+  //               '<button type="submit" class="btn btn-danger white"> <i class="ft-remove"></i>remove</buttion>' +
+  //                 '</form>';
+  //           }
+  //         },
+  //     ],
+  //     order: [[1, 'asc']], // column Name
+  //     pageLength: 10,
+  //     fnDrawCallback: function(oSettings) {
+  //         if (oSettings._iDisplayLength >= oSettings.fnRecordsDisplay()) {
+  //             $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+  //         } else {
+  //             $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+  //         }
+  //       }
+  //   };
+  //   let options = Object.assign({}, columnOptions, null);
+  //   table = $('#dataUser').DataTable(options);
+  // });
+
+  function LoadData(event) {
+    table.draw();
+    event.preventDefault();
+  }
+
+  $("#removeUser").submit(function(e) {
+
+    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+    var form = $(this);
+    var url = form.attr('action');
+    
+    $.ajax({
+      type: "Delete",
+      url: url,
+      success: function(data)
+      {
+        console.log(data);
+      }
+    });
+});
+
+  function newUser(event) {
+    $.ajax({
+      type: 'Get',
+      url: '/admin/users/create',
+      success: function (data) {
+        $("#addUserModal").html(data);
+        $("#addUserModal").modal('show');
+        if (event != null) {
+          event.preventDefault();
+        }
+      }
+    });
+  }
+
+  function editUser(id) {
+    $.ajax({
+      type: 'Get',
+      url: '/admin/users/'+id+'/edit',
+      success: function (data) {
+        $("#editUserModal").html(data);
+        $("#editUserModal").modal('show');
+
+        if (event != null) {
+          event.preventDefault();
+        }
+      }
+    });
+  }
+  
+</script>

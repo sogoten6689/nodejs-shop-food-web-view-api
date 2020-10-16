@@ -1,0 +1,11 @@
+{
+	"home": "Home",
+	"myAccount": "My Account",
+	"shopping Cart": "Shopping Cart",
+	"checkOut": "CheckOut",
+	"sidebar": {
+		"users": "Users",
+		"topics": "Topics"
+	},
+	"sidebar.users": "sidebar.users"
+}
