@@ -10,3 +10,5 @@
 # Guide
 ## Migrate table
 * sequelize model:create --name foods --attributes name:string,imageUrl:string,foodDescription:string
+## run migrate server
+* heroku run bash
