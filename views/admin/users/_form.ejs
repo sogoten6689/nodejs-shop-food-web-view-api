@@ -4,7 +4,7 @@
       <div class="form-group">
         <label for="name">Name:</label>
         <input type="text" class="form-control" id="name"/>
-        <span class="invalid-feedback" id="nameError">12341234</span>
+        <span class="invalid-feedback" style="display: block;" id="nameError"></span>
       </div>
       <!-- <div class="form-group">
         <label for="pwd">Password:</label>
@@ -13,12 +13,12 @@
       <div class="form-group">
         <label for="email">Email:</label>
         <input type="email" class="form-control" id="email"/>
-        <div class="invalid-feedback" id="emailError"></div>
+        <div class="invalid-feedback" style="display: block;" id="emailError"></div>
       </div>
       <div class="form-group">
         <label for="age">Age:</label>
-        <input type="number" class="form-control" id="age"/>
-        <div class="invalid-feedback" id="ageError"></div>
+        <input type="number" class="form-control" id="age" min="1" value="1"/>
+        <div class="invalid-feedback" style="display: block;" id="ageError"></div>
       </div>
     </div>
   </div>

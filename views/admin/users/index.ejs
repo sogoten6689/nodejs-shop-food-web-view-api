@@ -45,22 +45,6 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <% for (var index in users ) { %>
-                          <tr>
-                            <td><%= users[index].id %></td>
-                            <td><%= users[index].name %></td>
-                            <td><%= users[index].email %></td>
-                            <td class="form-group">
-                              <a class="btn btn-primary white round btn-sm" onclick="editUser(<%= users[index].id %>);">
-                                <i class="la la-edit"></i>
-                              </a>
-                              <form action="/admin/users/<%= users[index].id %>" method="POST" id="removeUser"> 
-                                <input type="hidden" name="_method" value="delete"/>
-                                <button type="submit"  class="btn btn-danger white round btn-sm"> <i class="la la-remove"></i></buttion>
-                              </form>
-                            </td>
-                          </tr>
-                        <% } %>
                       </tbody>
                     </table>
                   </div>
@@ -82,41 +66,39 @@
 
 <script>
   var table = null;
-  // $(document).ready(function() {
-  //   let columnOptions = {
-  //     serverSide: true,
-  //     proccessing: true,
-  //     searchDelay: 5,
-  //     ajax: {
-  //         url: '/admin/users/get-users',
-  //         method:'get',
-  //         dataSrc: ""
-  //     },
-  //     columns: [
-  //         {data: 'id', name: 'id', orderable: false, searchable: false},
-  //         {data: 'name', name: 'name'},
-  //         {data: 'email', name: 'email'},
-  //         {
-  //           render: function (data, type, row) {
-  //             return '<form action="/admin/users/'+row['id']+'" method="delete"> '+
-  //               '<button type="submit" class="btn btn-danger white"> <i class="ft-remove"></i>remove</buttion>' +
-  //                 '</form>';
-  //           }
-  //         },
-  //     ],
-  //     order: [[1, 'asc']], // column Name
-  //     pageLength: 10,
-  //     fnDrawCallback: function(oSettings) {
-  //         if (oSettings._iDisplayLength >= oSettings.fnRecordsDisplay()) {
-  //             $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
-  //         } else {
-  //             $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
-  //         }
-  //       }
-  //   };
-  //   let options = Object.assign({}, columnOptions, null);
-  //   table = $('#dataUser').DataTable(options);
-  // });
+  $(document).ready(function() {
+    let columnOptions = {
+      serverSide: true,
+      proccessing: true,
+      searchDelay: 5,
+      ajax: {
+          url: '/admin/users/get-users',
+          method:'get',
+          dataSrc: ""
+      },
+      columns: [
+          {data: 'id', name: 'id', orderable: false, searchable: false},
+          {data: 'name', name: 'name'},
+          {data: 'email', name: 'email'},
+          {
+            render: function (data, type, row) {
+              return '<button type="button" class="btn btn-danger white" onclick="deleteUser('+row['id']+')" > <i class="ft-remove"></i>remove</buttion>';
+            }
+          },
+      ],
+      order: [[1, 'asc']], // column Name
+      pageLength: 10,
+      fnDrawCallback: function(oSettings) {
+          if (oSettings._iDisplayLength >= oSettings.fnRecordsDisplay()) {
+              $(oSettings.nTableWrapper).find('.dataTables_paginate').hide();
+          } else {
+              $(oSettings.nTableWrapper).find('.dataTables_paginate').show();
+          }
+        }
+    };
+    let options = Object.assign({}, columnOptions, null);
+    table = $('#dataUser').DataTable(options);
+  });
 
   function LoadData(event) {
     table.draw();
@@ -135,7 +117,6 @@
       url: url,
       success: function(data)
       {
-        console.log(data);
       }
     });
 });
@@ -169,4 +150,13 @@
     });
   }
   
+  function deleteUser(id) {
+    $.ajax({
+      type: 'Delete',
+      url: '/admin/users/'+id,
+      success: function (data) {
+        table.draw();
+      }
+    });
+  }
 </script>

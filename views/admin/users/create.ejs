@@ -18,29 +18,37 @@
 <script>
   function createUser(event) {
     if (validationForm('#addUser')) {
-      // $.ajax({
-      //   type: 'POST',
-      //   url: '/admin/users/create',
-      //   data: { name: 'Lam', email: "lamnguye97@gmail.com", age: 20 },
-      //   success: function (data) {
-      //     console.log(data);
-      //     if (event != null) {
-      //       event.preventDefault();
-      //     }
-      //   }
-      // });
+      $.ajax({
+        type: 'POST',
+        url: '/admin/users/create',
+        data: { name: $('#name').val(), email: $('#email').val(), age: $('#age').val() },
+        success: function (data) {
+          table.draw();
+          if (event != null) {
+            event.preventDefault();
+          }
+          $('#addUserModal').modal('toggle');
+          table.draw();
+        }
+      });
     }
   }
 
   function validationForm(form) {
     var valid = true;
-    console.log(form + " #nameError");
-    $(form+' .invalid-feedback').text('');
-    if ($(form+' #name').val() == null){
+    $(form+'.invalid-feedback').text('');
+    if ($('#name').val() == null || $('#name').val() == ''){
       valid = false;
-      $(form+' #nameError').text('Not none!');
+      $('#nameError').text('Not none!');
     }
-    console.log(valid);
+    if ($('#email').val() == null || $('#email').val() == ''){
+      valid = false;
+      $('#emailError').text('Not none!');
+    }
+    if ($('#age').val() == null || $('#age').val() == null){
+      valid = false;
+      $('#ageError').text('Not none!');
+    }
     return valid;
   }
 </script>
