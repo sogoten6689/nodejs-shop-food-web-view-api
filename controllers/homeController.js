@@ -9,6 +9,10 @@ module.exports = {
             foodCount: 5,
         });
     },
+    
+    getLogin: async function(req, res) {
+        res.render('login');
+    },
 
     search: async function(req, res) {
         var result = await User.findAll({limit: 10});
