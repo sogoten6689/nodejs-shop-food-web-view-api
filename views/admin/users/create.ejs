@@ -21,7 +21,7 @@
       $.ajax({
         type: 'POST',
         url: '/admin/users/create',
-        data: { name: $('#name').val(), email: $('#email').val(), age: $('#age').val() },
+        data: { name: $('#name').val(), email: $('#email').val(), age: $('#age').val(), password: $('#password').val() },
         success: function (data) {
           table.draw();
           if (event != null) {
@@ -48,6 +48,10 @@
     if ($('#age').val() == null || $('#age').val() == null){
       valid = false;
       $('#ageError').text('Not none!');
+    }
+    if ($('#password').val() == null || $('#password').val() == null){
+      valid = false;
+      $('#passwordError').text('Not none!');
     }
     return valid;
   }

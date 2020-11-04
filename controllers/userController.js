@@ -29,7 +29,8 @@ module.exports = {
     post_create: function(req, res) {
         var data = JSON.stringify(req.body, null, 2);
         data = JSON.parse(data);
-        User.create({name: data.name, email: data.email, age: data.age});
+        console.log(data);
+        User.create({name: data.name, email: data.email, age: data.age, password: data.password});
         res.end(JSON.stringify(true));
     },
     show: function(req, res, next) {
