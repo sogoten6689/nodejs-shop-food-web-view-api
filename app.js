@@ -7,8 +7,6 @@ var i18n = require("i18n");
 var bodyParser = require('body-parser')
 
 var indexRouter = require('./routes/index');
-var adminRouter = require('./routes/admin');
-var apiRouter = require('./routes/api');
 
 var app = express();
 
@@ -37,8 +35,6 @@ i18n.configure({
 
  // set root route
 app.use('/', indexRouter);
-app.use('/api', apiRouter);
-app.use('/admin', adminRouter);
 
 app.use('/change-lang/:lang', (req, res) => { 
   res.cookie('lang', req.params.lang, { maxAge: 900000 });

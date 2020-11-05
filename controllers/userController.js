@@ -1,5 +1,6 @@
 var db =  require('../models/index.js');
 var User = db.user;
+var bcrypt = require('bcrypt');
 
 module.exports = {
     index: async function(req, res) {
@@ -29,7 +30,12 @@ module.exports = {
     post_create: function(req, res) {
         var data = JSON.stringify(req.body, null, 2);
         data = JSON.parse(data);
-        User.create({name: data.name, email: data.email, age: data.age, password: data.password});
+        User.create({
+            name: data.name,
+            email: data.email,
+            age: data.age, 
+            password: bCrypt.hashSync(data.password, bCrypt.genSaltSync(10), null)
+            });
         res.end(JSON.stringify(true));
     },
     show: function(req, res, next) {

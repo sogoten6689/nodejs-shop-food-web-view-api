@@ -1,11 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const homeController = require('../controllers/homeController');
+const authMiddleware = require('../middlewares/auth.middleware');
 const authRouter = require('./auth');
+var adminRouter = require('./admin');
+var apiRouter = require('./api');
 
 /* GET home page. */
 
 
+router.use('/api', apiRouter);
+router.use('/admin', authMiddleware.requireAuth, adminRouter);
 router.use('/login', authRouter);
 router.get('/', homeController.index);
 
