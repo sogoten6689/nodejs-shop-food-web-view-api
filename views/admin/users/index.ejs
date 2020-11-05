@@ -105,22 +105,6 @@
     event.preventDefault();
   }
 
-  $("#removeUser").submit(function(e) {
-
-    e.preventDefault(); // avoid to execute the actual submit of the form.
-
-    var form = $(this);
-    var url = form.attr('action');
-    
-    $.ajax({
-      type: "Delete",
-      url: url,
-      success: function(data)
-      {
-      }
-    });
-});
-
   function newUser(event) {
     $.ajax({
       type: 'Get',
@@ -131,6 +115,7 @@
         if (event != null) {
           event.preventDefault();
         }
+        table.draw();
       }
     });
   }
