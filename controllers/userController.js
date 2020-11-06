@@ -34,7 +34,7 @@ module.exports = {
             name: data.name,
             email: data.email,
             age: data.age, 
-            password: bCrypt.hashSync(data.password, bCrypt.genSaltSync(10), null)
+            password: bcrypt.hashSync(data.password, bcrypt.genSaltSync(10))
             });
         res.end(JSON.stringify(true));
     },

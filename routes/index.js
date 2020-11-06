@@ -12,6 +12,11 @@ var apiRouter = require('./api');
 router.use('/api', apiRouter);
 router.use('/admin', authMiddleware.requireAuth, adminRouter);
 router.use('/login', authRouter);
+router.get('/logout', function(req, res, next) {
+  res.clearCookie();
+  res.redirect('/login');
+});
+
 router.get('/', homeController.index);
 
 router.post('/add-cookie', function(req, res, next) {

@@ -29,6 +29,20 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'user',
+  },
+  {
+    instanceMethods: {
+      generateAuthToken: function() {
+        // Generate an auth token for the user
+        // const token = jwt.sign({_id: this._id}, process.env.JWT_KEY)
+        // user.tokens = this.tokens.concat({token})
+        // await user.save()
+        // return token
+      }
+
+    }
   });
+  
   return user;
 };
+
